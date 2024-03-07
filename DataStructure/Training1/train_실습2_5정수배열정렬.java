@@ -38,7 +38,7 @@ public class train_실습2_5정수배열정렬 {
 		}
 	}
 	static void swap(int[]arr, int ind1, int ind2) {//교재 67페이지
-		int t = arr[ind1]; arr[ind1] = arr[ind2]; arr[ind2] = t;
+		int str = arr[ind1]; arr[ind1] = arr[ind2]; arr[ind2] = str;
 	}
 	static void sortData(int []arr) {//배열을 정렬한걸 만드는 //오름차순 정렬
 		for (int i = 0; i < arr.length; i++) {

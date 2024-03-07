@@ -1,4 +1,4 @@
-package Chap2_기본자료구조;
+package DataStructure.Homeworks;
 
 import java.util.Arrays;
 
@@ -31,7 +31,8 @@ public class 실습2_14객체배열정렬 {
 	static void sortData(PhyscData []arr) {//위에 메소드 만든거 이용해서 정렬
 		for(int i = 0;)
 			for(int j = 0;)
-				if(arr[i] > arr[j])
+				//if(arr[i] > arr[j])
+				if (arr) [i].compareTo(arr[j]) > 0)
 					swap(arr, i, j);//빨간줄 걸려 > 컴페어투()가 필요해
 		
 	}
