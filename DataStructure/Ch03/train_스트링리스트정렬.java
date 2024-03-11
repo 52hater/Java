@@ -1,4 +1,5 @@
 package DataStructure.Ch03;
+//리스트를 배열로, 배열을 리스트로 변환하는 훈련
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,13 @@ public class train_스트링리스트정렬 {
 		
 	}
 	
-	public static String[] removeElement1(String[] arr, String item) {
+	public static String[] removeElement1(String[] arr, String item) {//여기선 중복체크만? 하고?(???)
+		//현재 배열에서 중복 제거할려면 코드가 길어짐
+		//배열을 리스트로 다시 변환, 변환한 list.remove();를 사용하면
+		//리스트는 삭제하면 땡겨줌
+		//삭제된 리스트를 배열로 변환해서 리턴
+		list.remove(item);
+		return list.toArray(String[]::new);
 
 	}
 
@@ -60,11 +67,23 @@ public class train_스트링리스트정렬 {
 		}
 		//방법2 리스트를 스트링배열로 전환 > 2장에서 한 배열정렬하는걸로 돌려 String cities[]=list.toArray() 밑에있네	
 
-	static String[] removeDuplicateList(List<String> list) {//같은서울 제거하라 i, j써서 for문써서 i=0일때 j따라락, i=1일때 j따라락 그렇게
+	static String[] removeDuplicateList(List<String> list) {//여기서 중복제거
+		//같은서울 제거하라 i, j써서 for문써서 i=0일때 j따라락, i=1일때 j따라락 그렇게
+		//리스트에서 중복찾을수도있지만 리스트를 배열로 변환해서 찾는것도 연습해야지(훈련목표 : 리스트<->배열 변환 숙달)
 		String cities[] = new String[0];
-		cities = list.toArray(cities);//리스트를 배열 cities[]로 변환했지
-		//for 문으로 도시가 중복인 것을 체크 = 스트링이니까 comparaTo를 써서 중복있으면 
-		removeElement1(arr, item); //메소드 호출해서 지워//arr를 asList로 배열로 주고/어레이리스트는 삭제하면 땡겨줌
+		cities = list.toArray(cities);//리스트를 배열 cities[]로 변환했지, 그 다음에 배열에서 중복을 찾는 것 
+		//for 문으로 도시가 중복인 것을 체크 = 스트링이니까 comparaTo를 써서 중복있으면
+		int count = cities.length;
+		for (int i = 0; i < count; i++ ) {
+			int j = i + 1;
+			while (j < count) {
+				if () {//배열에서 중복 검사하여 참이면
+					cities = removeElement1(cities, cities[j]);
+				}
+				//j 수정하고 나머지 작업
+			}
+		}
+		//removeElement1(cities, city); //메소드 호출해서 지워//arr를 asList로 배열로 주고/어레이리스트는 삭제하면 땡겨줌
 		//list.remove(item)
 		
 

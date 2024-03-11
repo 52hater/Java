@@ -32,7 +32,7 @@ public class Test_실습2_14스트링배열정렬 {
 
 
    static void swap(String[]arr, int ind1, int ind2) {
-      String str = arr[ind1]; arr[ind1] = arr[ind2]; arr[ind2] = str;
+      String swapArr = arr[ind1]; arr[ind1] = arr[ind2]; arr[ind2] = swapArr;
    }
    
    static void sortData2(String []arr) {

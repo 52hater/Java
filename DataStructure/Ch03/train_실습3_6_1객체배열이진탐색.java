@@ -56,7 +56,9 @@ public class train_실습3_6_1객체배열이진탐색 {
 		showData("정렬후", data);
 		reverse(data);
 		showData("역순 재배치후", data);
-		Arrays.sort(data);//사용된다 그 이유는?
+		Arrays.sort(data);//사용된다 그 이유는? //시력가지고 정렬>
+		//data=배열, 정렬>>배열원소간의 비교 if data[i] > data[j]
+		// >>> compareTo() > 피직스 데이타를 갖다쓴거?
 		showData("Arrays.sort() 정렬후", data);
 		
 		PhyscData2 key = new PhyscData2("길동", 167, 0.2);
@@ -67,14 +69,15 @@ public class train_실습3_6_1객체배열이진탐색 {
 		/*
 		 * 교재 109~113
 		 */
-		resultIndex = binarySearch(data, key);//comparable를 사용
+		resultIndex = binarySearch(data, key);//comparable를 사용//요거는 내가 구현하는거
 		System.out.println("\nbinarySearch(<박동,182,0.6>): result = " + resultIndex);
 		key = new PhyscData2("이동", 167, 0.6);
 		/*
 		 * 교재 115 Arrays.binarySearch에 의한 검색
 		 */
-		resultIndex = Arrays.binarySearch(data, key);//comparable를 사용
+		resultIndex = Arrays.binarySearch(data, key);//comparable를 사용//요거는 자바에서 제공
 		System.out.println("\nArrays.binarySearch(<이동,167,0.6>): result = " + resultIndex);
+		//여기서 객체를 비교할거잖 >  키의 객체는 컴페러블을 갖다쓴다?
 	}
 	
 	
