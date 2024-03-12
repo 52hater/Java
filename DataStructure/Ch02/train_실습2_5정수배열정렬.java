@@ -1,4 +1,4 @@
-package DataStructure.Training1;
+package DataStructure.Ch02;
 
 import java.util.Arrays;
 //교재 67 - 실습 2-5

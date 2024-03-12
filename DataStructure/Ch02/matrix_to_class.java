@@ -1,3 +1,5 @@
+package DataStructure.Ch02;
+
 class Matrix{
 
    int cols,rows;

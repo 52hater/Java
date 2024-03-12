@@ -1,4 +1,4 @@
-package DataStructure.Homeworks;
+package DataStructure.Ch02.Homeworks;
 
 import java.util.Arrays;
 
@@ -21,13 +21,16 @@ public class Test_실습2_14스트링배열정렬 {
    public static void main(String[] args) {
       String []data = {"apple","grape","persimmon", "pear","blueberry", "strawberry", "melon", "oriental melon"};
 
-      showData(data);//정렬 전 데이터출력
+      showData("정렬전", data);//정렬 전 데이터출력
       sortData(data);//데이터정렬
-      showData(data);//정렬 후 데이터출력
+      showData("정렬후", data);//정렬 후 데이터출력
    }
-   static void showData(String[]arr) {
-      for(String name : arr)
-         System.out.println(name);//각원소 가져오는거지
+   
+   static void showData(String message, String[] arr) {
+	   System.out.println(message + ":: ");
+      for(String name : arr) 
+    	  System.out.print(name + " ");//각원소 가져오는거지
+      System.out.println();
    }
 
 

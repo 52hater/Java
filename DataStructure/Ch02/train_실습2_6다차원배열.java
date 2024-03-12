@@ -1,4 +1,4 @@
-package DataStructure.Training1;
+package DataStructure.Ch02;
 
 /*
  * 3번째 실습

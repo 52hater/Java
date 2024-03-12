@@ -1,4 +1,4 @@
-package DataStructure.Homeworks;
+package DataStructure.Ch02.Homeworks;
 
 import java.util.Arrays;
 
@@ -15,11 +15,16 @@ class PhyscData implements Comparable<PhyscData> {//컴페레이터 컴페러블
 	String name;
 	int height;
 	double vision;
-	String PhyscData[];
+
+	public PhyscData (String name, int height, double vision) {
+		this.name = name;
+		this.height = height;
+		this.vision = vision;
+	}
 
 	@Override
 	public String toString() {
-		return name + height + vision;
+		return "PhyscData [name=" + name + ", height=" + height + ", vision=" + vision + "]";
 	}
 	@Override
 	public int compareTo(PhyscData p) { //객체가 와야되는데 파라미터를 없애고 compare(int n) 이런식으로 하면
@@ -38,54 +43,28 @@ class PhyscData implements Comparable<PhyscData> {//컴페레이터 컴페러블
 		//현재 객체와 매개변수의 객체 p 를 비교하는 것
 	}
 
-	public int equals_int(PhyscData p) {//boolean 으로 하면 안되나
-	}
-	
-	/*public boolean equals_boolean(PhyscData p) {
-		if (vision == p.vision) {
-			return true;
-			if (height == p.height) {
-				return true;
-				if ()
-			}
-		}
-	}*/
-	
 	public boolean equals_boolean(PhyscData p) {
-		if (arr1.length != arr2.length) 
-			return false;
-		
-		if (arr1 == null || arr2 == null) 
-			return false;
-		
-		for (int i = 0; i < arr1.length; i++) {
-			arr[i]
-		}
+		return this.name == p.name && this.height == p.height && this.vision == p.vision;
 	}
+}
 
-	public class Test_실습2_14객체배열정렬 {
-		static void swap(PhyscData[]arr, int ind1, int ind2) {
-			PhyscData swapArr = arr[ind1];
-			arr[ind1] = arr[ind2];
-			arr[ind2] = swapArr;
+public class Test_실습2_14객체배열정렬 {
+	static void swap(PhyscData[]arr, int ind1, int ind2) {
+		PhyscData swapArr = arr[ind1];
+		arr[ind1] = arr[ind2];
+		arr[ind2] = swapArr;
 
-		}
-		static void sortData(PhyscData []arr) {//위에 메소드 만든거 이용해서 정렬
-			for(int i = 0; i < arr.length; i++) {
-				for(int j = i + 1; j < arr.length; j++) { 
-					if (arr[i].compareTo(arr[j]) > 0) {
-						swap(arr, i, j);
-					}
+	}
+	static void sortData(PhyscData []arr) {//위에 메소드 만든거 이용해서 정렬
+		for(int i = 0; i < arr.length; i++) {
+			for(int j = i + 1; j < arr.length; j++) { 
+				if (arr[i].compareTo(arr[j]) > 0) {
+					swap(arr, i, j);
 				}
 			}
 		}
-		static void showData(PhyscData[]arr) {
-			for (int i = 0; i < arr.length; i++) {
-				System.out.println(arr[i]);
-			}			
-		}
-
 	}
+
 
 	public static void main(String[] args) {
 		PhyscData[] data = {
@@ -97,15 +76,26 @@ class PhyscData implements Comparable<PhyscData> {//컴페레이터 컴페러블
 				new PhyscData("박길동", 167, 0.2),
 				new PhyscData("최길동", 169, 0.5),
 		};
-		
+
 		//data[0].(객체.)compareTo data[0] 이 객체는 클래스에 구현
-		showData("unsorted data : " + data);
+		showData("unsorted data : " , data);
 		sortData(data);
+		System.out.println();
 		//Arrays.sort(null, null);//comparator가 필요하다 
-		showData("sorted data : " + data);
-		equals_int();
-		showData();
-		equals_boolean();
-		showData();
+		showData("sorted data(vision) : " , data);
+		System.out.println();
+		
+		System.out.println("data[0] == data[1]: " + data[0].equals_boolean(data[1]));
+	    System.out.println("data[0] == data[2]: " + data[0].equals_boolean(data[2]));
+	    System.out.println("data[1] == data[2]: " + data[1].equals_boolean(data[2]));
 	}
+
+	static void showData(String str, PhyscData[]arr) { //이 파라미터에 대한 정확한 이해 필요/공부
+			System.out.println(str);
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println(arr[i].toString());
+		}			
+	}
+
+}
 
