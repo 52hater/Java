@@ -1,6 +1,6 @@
 package DataStructure.Ch04;
 
-//선형 큐 구현
+//선형 큐 구현//ArrayList리스트는 지가 사이즈를 늘려주고줄여주고해서 선형큐 편해
 import java.util.Scanner;
 
 /*
@@ -36,7 +36,7 @@ public Queue4(int maxlen) {
 
 }
 
-//--- 큐에 데이터를 인큐 ---//
+//--- 큐에 데이터를 인큐 ---//책
 	public int enque(int x) throws OverflowQueueException {
 
 	}
@@ -68,7 +68,7 @@ public Queue4(int maxlen) {
 
 //--- 큐에 쌓여 있는 데이터 개수를 반환 ---//
 	public int size() {
-		return num;
+		//return num; //num 쓰지마
 	}
 
 //--- 큐가 비어있는가? ---//

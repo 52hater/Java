@@ -47,13 +47,22 @@ class Point3 {
 
 //int형 고정 길이 큐
 class objectQueue2 {
-  private Point3[] que;
-	private int capacity; // 큐의 크기
+  private Point3[] que; //que는 참조변수(어디를 가리키고있는게 아니다(?))
+	private int capacity; // 큐의 크기 - 배열의 length
 	private int front; // 맨 처음 요소 커서
 	private int rear; // 맨 끝 요소 커서
 	private int num; // 현재 데이터 개수
+	private objectQueue2 (int maxlen) {//배열의 크기만 파라미터로 받은 것(배열의 크기만 매개변수)
+		que = new point3[maxlen];//맥스렝스가있으면 포인트를 쓰기때문에 큐는 파라미터를 받지않아도된다?
+		this.capacity = maxlen;//이름이 다르면 디스 안써도된대
+		front = rear = 0;
+		num = 0;
+		//생성자 : 필드초깃값을 준다고 생각하면 됨
+		//new 하면 힙에 공간을 할당하고 필드에 할당된 공간의 주소를 리턴해서 준다
+		
+	}
 
-//--- 실행시 예외: 큐가 비어있음 ---//
+//--- 실행시 예외: 큐가 비어있음 ---// 책에있는거 자꾸 보고 타이핑해서 익혀 > 보고 해서 반복연습으로 숙달만 되면 됨
 	public class EmptyQueueException extends RuntimeException {
 		public EmptyQueueException() {
 		}
@@ -102,7 +111,8 @@ public objectQueue2(int maxlen) {
 
 //--- 큐에 쌓여 있는 데이터 개수를 반환 ---//
 	public int size() {
-		return num;
+		//return num; //num 쓰지마
+		//num 은 개수를 푸쉬팝할떄마다 고쳐야돼서 그런식의 구현은 ㄴㄴ
 	}
 
 //--- 큐가 비어있는가? ---//
