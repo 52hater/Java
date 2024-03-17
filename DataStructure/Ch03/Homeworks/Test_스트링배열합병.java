@@ -6,30 +6,61 @@ package DataStructure.Ch03.Homeworks;
  */
 import java.util.Arrays;
 import java.util.List;
+
 public class Test_스트링배열합병 {
-    static void showList(String topic, String [] list) {
+	static void showList(String message, String [] list) {
+		System.out.println(message + " :: ");
+		for (String elem : list) {
+			System.out.print(elem + " ");
+		}
+		System.out.println();
+	}
+	static String[] mergeList(String[]s1, String[] s2) {//리턴값은 스트링주고 //리턴타입배열
+		int i = 0, j = 0, k = 0; //이 형식 외워
+		String[] s3 = new String[10];//s3 을 새로 할당하고 합친다음에 s3리턴//새로운배열을만들고 채워넣고 리턴
+		
+		while(i < s1.length && j < s2.length) {
+			if(s1[i].compareTo(s2[j]) < 0) {
+				s3[k++] = s1[i++];
+//				i++;
+			} else {
+				s3[k++] = s2[j++];
+//				j++;
+			}
+//			k++;
+		}
 
-    }
-    static String[] mergeList(String[]s1, String[] s2) {//리턴값은 스트링주고 //리턴타입배열
-    	int i = 0, j = 0,k =0;
-    	String[] s3 = new String[10];//s3 을 새로 할당하고 합친다음에 s3리턴//새로운배열을만들고 채워넣고 리턴
-    	
-    	return s3;//s3는 변수고 리턴타입은 String[]
-    }
-    public static void main(String[] args) {
-	String[] s1 = { "홍길동", "강감찬", "을지문덕", "계백", "김유신" };
-	String[] s2 = {"독도", "울릉도", "한산도", "영도", "우도"};
-	Arrays.sort(s1);//comparable, comparator 도 없다 > comparable 의 compareTo()를 사용
-	Arrays.sort(s2);
-	//후속코딩은? > 객체들의 정렬(지금 String 은 해봤잖아)
-	//예를들어 Students 클래스를 만들고 정렬
-	
-	showList("s1배열 = ", s1);
-	showList("s2배열 = ", s2);
+		while(i < s1.length) {
+			s3[k++] = s1[i++];
+//			k++;
+//			i++;
+		}
 
-	String[] s3 = mergeList(s1,s2); //함수에 전달하고 받고 리턴값, 리턴타입 훈련
-	showList("스트링 배열 s3 = s1 + s2:: ", s3);
-}
+		while(j < s2.length) {
+			s3[k++] = s2[j++];
+//			k++;
+//			j++;
+		}
+
+		return s3;
+	}
+// 헷갈리게 증감식 따로 적지말고 그냥 안에 적자... 한참 고생했네
+	//머지리스트메소드 이거 꼭 복습!
+	public static void main(String[] args) {
+		String[] s1 = { "홍길동", "강감찬", "을지문덕", "계백", "김유신" };
+		String[] s2 = {"독도", "울릉도", "한산도", "영도", "우도"};
+
+		Arrays.sort(s1);//comparable, comparator 도 없다 > comparable 의 compareTo()를 사용
+		showList("s1배열", s1);
+		System.out.println();
+
+		Arrays.sort(s2);
+		showList("s2배열", s2);
+		System.out.println();
+
+		String[] s3 = mergeList(s1,s2); //함수에 전달하고 받고 리턴값, 리턴타입 훈련
+		showList("s3 = s1 + s2", s3);
+	}
 }
 
 //merge 병합
@@ -42,5 +73,5 @@ public class Test_스트링배열합병 {
 //s3 = s1+s2
 //s3 = 강감찬 계백 김유신 독도 영도 우도 울릉도 을지문덕 한산도 홍길동
 //while 루프 돌려서 p 가 돌고 q 가 돌고
-//빠져나왔을떄 p 가 남아있는지 q 가 남아있는지 또 while 문을 돌려야된대(?)
+//빠져나왔을떄 p 가 남아있는지 q 가 남아있는지 또 while 문을 돌려야된다(남은거)
 //합해진건 새로운 배열

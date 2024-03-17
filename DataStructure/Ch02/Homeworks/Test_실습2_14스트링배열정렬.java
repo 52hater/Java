@@ -18,45 +18,54 @@ import java.util.Arrays;
  */
 
 public class Test_실습2_14스트링배열정렬 {
-   public static void main(String[] args) {
-      String []data = {"apple","grape","persimmon", "pear","blueberry", "strawberry", "melon", "oriental melon"};
+	public static void main(String[] args) {
+		String []data = {"apple","grape","persimmon", "pear","blueberry", "strawberry", "melon", "oriental melon"};
 
-      showData("정렬전", data);//정렬 전 데이터출력
-      sortData(data);//데이터정렬
-      showData("정렬후", data);//정렬 후 데이터출력
-   }
-   
-   static void showData(String message, String[] arr) {
-	   System.out.println(message + ":: ");
-      for(String name : arr) 
-    	  System.out.print(name + " ");//각원소 가져오는거지
-      System.out.println();
-   }
+		showData("정렬전", data);//정렬 전 데이터출력
+		System.out.println();
+		
+		sortData(data);//데이터정렬
+		showData("정렬후", data);//정렬 후 데이터출력
+		System.out.println();
+		
+		sortData2(data);
+		showData("정렬2", data);
+		System.out.println();
+	}
+
+	static void showData(String message, String[] data) {
+		System.out.println(message + ":: ");
+		for(String fruit : data)
+			System.out.print(fruit + " ");//각원소 가져오는거지
+		System.out.println();
+	}
 
 
-   static void swap(String[]arr, int ind1, int ind2) {
-      String swapArr = arr[ind1]; arr[ind1] = arr[ind2]; arr[ind2] = swapArr;
-   }
-   
-   static void sortData2(String []arr) {
-	   Arrays.sort(arr);
-	   System.out.println(arr);
-   }
+	static void swap(String[]data, int ind1, int ind2) {
+		String swapData = data[ind1];
+		data[ind1] = data[ind2];
+		data[ind2] = swapData;
+	}
 
-   static void sortData(String []arr) {
-      for (int i = 0; i < arr.length; i++) {
-         for (int j = i + 1; j < arr.length; j++) {
-            if (arr[i].compareTo(arr[j]) > 0) //스트링에 compareTo()메소드를 사용하는 것을 자가공부해서 해봐라
-               //아스키코드 비교해서 arr[i]가 arr[j]보다 앞이면 스왑(if 문 참)
-               //예를들어 "abhg".compareTo("h"); // -7 일때
-               //a = 97 / h = 104 이기 때문에 차이값은 -7
-               //"abcd".compareTo("abfd"); // -3
-               //비교가 불가능한 시점을 찾아줘야 하는데, 여기서 비교가 불가능한 시점이 어디일까?
-               //ab는 서로 동일하기에 c와 f의 비교에서 비교가 불가능하다.
-               //그렇기 때문에 c = 99 / f =102 이기 때문에 차이값은 -3, 즉 c 가 앞
-               
-               swap(arr, i, j); //정수일때 스왑을 불렀어 //여튼 스트링버전으로 해봐
-         }
-      }
-   }
+	static void sortData2(String []data) {
+		Arrays.sort(data);
+		//System.out.println(data); 이렇게하면 배열객체주소가 튀어나오네
+	}
+
+	static void sortData(String []data) {
+		for (int i = 0; i < data.length; i++) {
+			for (int j = i + 1; j < data.length; j++) {
+				if (data[i].compareTo(data[j]) > 0) //스트링에 compareTo()메소드를 사용하는 것을 자가공부해서 해봐라
+					//아스키코드 비교해서 arr[i]가 arr[j]보다 앞이면 스왑(if 문 참)
+					//예를들어 "abhg".compareTo("h"); // -7 일때
+					//a = 97 / h = 104 이기 때문에 차이값은 -7
+					//"abcd".compareTo("abfd"); // -3
+					//비교가 불가능한 시점을 찾아줘야 하는데, 여기서 비교가 불가능한 시점이 어디일까?
+					//ab는 서로 동일하기에 c와 f의 비교에서 비교가 불가능하다.
+					//그렇기 때문에 c = 99 / f =102 이기 때문에 차이값은 -3, 즉 c 가 앞
+
+					swap(data, i, j); //정수일때 스왑을 불렀어 //여튼 스트링버전으로 해봐
+			}
+		}
+	}
 }
