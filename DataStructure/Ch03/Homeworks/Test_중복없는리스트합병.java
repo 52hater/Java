@@ -24,6 +24,14 @@ public class Test_중복없는리스트합병 {
 
 	static ArrayList<String> removeDuplicate(ArrayList<String> al) {
 		//구현할 부분 : 리스트에서 중복을 제거한다, 정렬후 호출하는 것을 전제로 구현
+		ArrayList<String> list1 = new ArrayList<>();
+		for (String elem : al) {
+			if (!list1.contains(elem)) {
+				list1.add(elem);
+				} else {
+					list1.remove(elem);
+			}
+		}
 		
 		return list1;
 	}
@@ -32,7 +40,6 @@ public class Test_중복없는리스트합병 {
 		
 	}
 	static void makeList(String[] sarray1, List<String>list1) {
-		
 	}
 	
 	static List<String> mergeList(List<String> list1, List<String> list2) {
