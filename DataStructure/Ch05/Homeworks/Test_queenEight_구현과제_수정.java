@@ -78,36 +78,55 @@ class Stack4 {
 
 	// --- 생성자(constructor) ---//
 	public Stack4(int capacity) {
-
+		this.capacity = capacity;
+		data = new ArrayList<Point>();
+		top = 0;
 	}
 
 	// --- 스택에 x를 푸시 ---//
 	public boolean push(Point x) throws OverflowGenericStackException {
-
+		if(isFull())
+			throw new OverflowGenericStackException("push: stack overflow");
+		data.add(x);
+		top++;
+		System.out.println(top);
+		return true;
 
 	}
 
 	// --- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
 	public Point pop() throws EmptyGenericStackException {
-
+		if(isEmpty())
+			throw new EmptyGenericStackException("pop: stack empty");
+		//리스트의 탑을 리턴한다.
+		Point result = data.get(top-1);
+		data.remove(top-1);
+		top--;
+		return result;
 	}
 
 	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public Point peek() throws EmptyGenericStackException {
+		if(isEmpty())
+			throw new EmptyGenericStackException("peek: this stack is empty");
 
+		System.out.println(top);
+		return data.get(top-1);
 	}
 
 	// --- 스택을 비움 ---//
 	public void clear() {
+		if (isEmpty())
+			throw new EmptyGenericStackException("clear: this stack is already empty");
 		top = 0;
 	}
 
 	// --- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
 	public int indexOf(Point x) {
-		for (int i = top - 1; i >= 0; i--) // 꼭대기 쪽부터 선형 검색
+		for (int i = top - 1; i >= 0; i--)
 			if (data.get(i).equals(x))
-				return i; // 검색 성공
-		return -1; // 검색 실패
+				return i;
+		return -1;
 	}
 
 	// --- 스택의 크기를 반환 ---//
@@ -166,17 +185,29 @@ public class Test_queenEight_구현과제_수정 {
 		//이런식으로 말로 쓰고 나서 코딩하는게 더 빨라
 		//8퀸은 자료구조보다는 알고리즘의 첫단계
 		//스택의 포인터 완성시켜놓고 여기에 적용
+
 		while (true) {
+			if (checkRow(d, ix)) {
+				st.push(p);
+				p = p - 1;
+				continue;
+			}
+			if (st.isEmpty() != true) {
+				p = st.pop();
+				System.out.println(p);
+				p = p - 2;
+				continue;
+			}
+			break;
 
 		}
-
 	}
 
 	public static boolean checkRow(int[][] d, int crow) { 
 		//배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
 		//대각선 남서쪽체크 /
 		for (int i = 0; i < d[0].length; i++) {
-			if (d[crow][i] != 0) {
+			if (d[crow][i] == 1) {
 				return false; // 해당 행에 이미 퀸이 배치되어 있으면
 			}
 		}
@@ -187,7 +218,7 @@ public class Test_queenEight_구현과제_수정 {
 		//배열 d에서 열 ccol에 퀸을 배치할 수 있는지 조사
 		//대각선 남동쪽체크 \
 		for (int i = 0; i < d.length; i++) {
-			if (d[i][ccol] != 0) {
+			if (d[i][ccol] == 1) {
 				return false; // 해당 열에 이미 퀸있으면
 			}
 		}
@@ -199,7 +230,7 @@ public class Test_queenEight_구현과제_수정 {
 	public static boolean checkDiagSW(int[][] d, int cx, int cy) {
 		// x++, y-- or x--, y++ where 0<= x,y <= 7
 		while (cx >= 0 && cy < d[0].length) {
-			if (d[cx][cy] != 0) {
+			if (d[cx][cy] == 1) {
 				return false;
 			}
 			//cx 줄어들고 cy 올라가면서
@@ -213,12 +244,13 @@ public class Test_queenEight_구현과제_수정 {
 	public static boolean checkDiagSE(int[][] d, int cx, int cy) {
 		// x++, y++ or x--, y--
 		while (cx >= 0 && cy >= 0) {
-			if (d[cx][cy] != 0) {
+			if (d[cx][cy] == 1) {
 				return false;
 			}
 			cx--;
 			cy--;
 		}
+		return true;
 	}
 
 	//배열 d에서 (x,y)에 퀸을 배치할 수 있는지  조사
@@ -257,7 +289,7 @@ public class Test_queenEight_구현과제_수정 {
 			System.out.println();
 		}
 	}
-}
+
 
 	public static void main(String[] args) {
 		int row = 8, col = 8;
@@ -269,4 +301,5 @@ public class Test_queenEight_구현과제_수정 {
 		EightQueen(data);
 
 	}
+
 }
