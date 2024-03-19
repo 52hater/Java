@@ -117,8 +117,8 @@ class Stack4 {
 	// --- 스택을 비움 ---//
 	public void clear() {
 		if (isEmpty())
-			throw new EmptyGenericStackException("clear: this stack is already empty");
-		top = 0;
+			//throw new EmptyGenericStackException("clear: this stack is already empty");
+			top = 0;
 	}
 
 	// --- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
@@ -170,7 +170,7 @@ public class Test_queenEight_구현과제_수정 {
 		Point p = new Point(ix, iy);// 현 위치를 객체로 만들고
 		d[ix][iy] = 1;// 현 위치에 queen을 넣었다는 표시를 하고
 		count++;
-		iy++;
+		ix++;//다음행으로 이동
 		st.push(p);// 스택에 현 위치 객체를 push
 
 		//175p
@@ -186,11 +186,36 @@ public class Test_queenEight_구현과제_수정 {
 		//8퀸은 자료구조보다는 알고리즘의 첫단계
 		//스택의 포인터 완성시켜놓고 여기에 적용
 
-		while (true) {
-			if (checkRow(d, ix)) {
+		//넥스트무브를 사용해서 -1일때와 아닐때
+		while (count < 8) {
+			//4*4 일때
+			//0,0에 퀸배치, 푸쉬
+			//넥스트무브 함수사용
+			//다음행으로, 넥스트무브 함수사용, 1,2에 퀸 배치, 푸쉬
+			//다음행으로, 넥스트무브 함수사용, 넣을 수 있는 곳X(return -1;)
+			//(1,2)pop, (0,0)pop
+			//ix++ >> 다음행으로 이동, (1,0)push
+			//(0,2)push?
+
+			int newCol;
+			if (newCol = nextMove(d, ix, iy) != -1) {
+				d[ix][newCol] = 1;
 				st.push(p);
-				p = p - 1;
+				count++;
+				ix++;
 				continue;
+			} else {
+				st.pop();
+			}
+			if(newCol == -1) {
+				p = pop();
+				x=p.ix
+						y=p.iy
+						//물리기
+						d[x][y]=0
+						count--
+						y++
+						continue
 			}
 			if (st.isEmpty() != true) {
 				p = st.pop();
@@ -201,6 +226,7 @@ public class Test_queenEight_구현과제_수정 {
 			break;
 
 		}
+		System.out.println("해의 개수 : " + numberSolutions);
 	}
 
 	public static boolean checkRow(int[][] d, int crow) { 
@@ -229,27 +255,39 @@ public class Test_queenEight_구현과제_수정 {
 	//배열 d 에서 행 cx, 열 cy 에 퀸을 남서, 북동 대각선으로 배치할 수 있는지 조사
 	public static boolean checkDiagSW(int[][] d, int cx, int cy) {
 		// x++, y-- or x--, y++ where 0<= x,y <= 7
-		while (cx >= 0 && cy < d[0].length) {
-			if (d[cx][cy] == 1) {
+		int x = cx, y = cy;
+		while (x >= d.length-1 && y >= d[0].length-1) {
+			if (d[x][y] == 1)
 				return false;
-			}
-			//cx 줄어들고 cy 올라가면서
-			cx--;
-			cy++;
+			x--;
+			y--;
 		}
-		return true; // 배치가능한경우
+		while (x < d.length-1 && y < d[0].length-1) {
+			if (d[x][y] == 1)
+				return false;
+			x++;
+			y++;
+		}
+		
+		return true;
 	}
 
 	//배열 d에서 행 cx, 열 cy에 퀸을 남동, 북서 대각선으로 배치할 수 있는지 조사
 	public static boolean checkDiagSE(int[][] d, int cx, int cy) {
-		// x++, y++ or x--, y--
-		while (cx >= 0 && cy >= 0) {
-			if (d[cx][cy] == 1) {
+		int x = cx, y = cy;
+		while (x >= 0 && y < d[0].length-1) {
+			if (d[x][y] == 1)
 				return false;
-			}
-			cx--;
-			cy--;
+			x--;
+			y++;
 		}
+		while (x < d.length-1 && y >= 0) {
+			if (d[x][y] == 1)
+				return false;
+			x++;
+			y--;
+		}
+		
 		return true;
 	}
 
@@ -265,20 +303,23 @@ public class Test_queenEight_구현과제_수정 {
 
 	//첵무브는 네개를 다 불러서하고
 	public static boolean checkMove(int[][] d, int x, int y) {// (x,y)로 이동 가능한지를 check
-		return checkRow(d, x) && checkCol(d, y) && checkDiagSW(d, x, y) && checkDiagSE(d, x, y);
+		if (checkRow(d, x) && checkCol(d, y) && checkDiagSW(d, x, y) && checkDiagSE(d, x, y)) {
+			return true;
+		}
+		return false;
 	}
 
 	// 배열 d에서 현재 위치(row,col)에 대하여 다음에 이동할 위치 nextCol을 반환,
 	//이동이 가능하지 않으면 -1를 리턴
 	//넥스트무브는 첵무브를 불러서 for루프 돌려서
 	public static int nextMove(int[][] d, int row, int col) {// 현재 row, col에 대하여 이동할 col을 return
-		for (int nextCol = col; nextCol < d[0].length; nextCol++) {
-			//현재위치 기준이니까 현재 열의 위치 col 로 초기화
-			if (checkMove(d, row, nextCol)) {//현재행에서 
-				return nextCol;
+		for (int nextCol = col+1; nextCol < d[0].length; nextCol++) {
+			//다음열을 탐색해야하니까 col+1로 초기화
+			if (checkMove(d, row, nextCol)) {//checkMove가 참이면
+				return nextCol; // col+1(다음열로)
 			}
-			return -1;
 		}
+		return -1;
 	}
 
 	static void showQueens(int[][] data) {// 배열 출력
