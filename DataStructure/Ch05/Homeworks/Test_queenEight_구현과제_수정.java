@@ -4,6 +4,8 @@ package DataStructure.Ch05.Homeworks;
 import java.util.ArrayList;
 import java.util.List;
 
+import DataStructure.Ch05.Homeworks.Stack4.EmptyGenericStackException;
+
 //https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/?ref=lbp
 //N Queen problem / backtracking
 //모든 해가 나오는 버젼 만들기 
@@ -162,10 +164,11 @@ class Stack4 {
 }
 
 public class Test_queenEight_구현과제_수정 {
-	public static void EightQueen(int[][] d) {
+	public static void EightQueen(int[][] d) throws EmptyGenericStackException {
 		int count = 0;// 퀸 배치 갯수
 		int numberSolutions = 0;
 		int ix = 0, iy = 0;// 행 ix, 열 iy
+		int newCol = nextMove(d, ix, iy);
 		Stack4 st = new Stack4(100); // 100개를 저장할 수 있는 스택을 만들고
 		Point p = new Point(ix, iy);// 현 위치를 객체로 만들고
 		d[ix][iy] = 1;// 현 위치에 queen을 넣었다는 표시를 하고
@@ -187,7 +190,7 @@ public class Test_queenEight_구현과제_수정 {
 		//스택의 포인터 완성시켜놓고 여기에 적용
 
 		//넥스트무브를 사용해서 -1일때와 아닐때
-		while (count < 8) {
+		while (!(iy == d[0].length && ix == 0)) {
 			//4*4 일때
 			//0,0에 퀸배치, 푸쉬
 			//넥스트무브 함수사용
@@ -197,34 +200,28 @@ public class Test_queenEight_구현과제_수정 {
 			//ix++ >> 다음행으로 이동, (1,0)push
 			//(0,2)push?
 
-			int newCol;
-			if (newCol = nextMove(d, ix, iy) != -1) {
+			if (newCol != -1) {
+				iy = newCol;
 				d[ix][newCol] = 1;
-				st.push(p);
+				st.push(new Point(ix, newCol));
 				count++;
 				ix++;
-				continue;
+				iy = 0;
+				
+				if (count == 8) {
+					numberSolutions++;
+					System.out.println("#[" + numberSolutions + "]");
+					showQueens(d);
+				} continue; 
 			} else {
-				st.pop();
-			}
-			if(newCol == -1) {
-				p = pop();
-				x=p.ix
-						y=p.iy
-						//물리기
-						d[x][y]=0
-						count--
-						y++
-						continue
-			}
-			if (st.isEmpty() != true) {
-				p = st.pop();
-				System.out.println(p);
-				p = p - 2;
-				continue;
+				Point n = st.pop(); // 실행되고 리턴 // Point n 이라는 객체에 st에서 팝한걸 저장
+				d[n.getX()][n.getY()] = 0;
+				ix = n.getX(); //현 메소드 지역변수에 가지고 온 값을 넣는다.
+				iy = n.getY();
+				count --;
+				iy++;
 			}
 			break;
-
 		}
 		System.out.println("해의 개수 : " + numberSolutions);
 	}
@@ -262,13 +259,15 @@ public class Test_queenEight_구현과제_수정 {
 			x--;
 			y--;
 		}
+		x= cx;
+		y= cy;
 		while (x < d.length-1 && y < d[0].length-1) {
 			if (d[x][y] == 1)
 				return false;
 			x++;
 			y++;
 		}
-		
+
 		return true;
 	}
 
@@ -281,13 +280,15 @@ public class Test_queenEight_구현과제_수정 {
 			x--;
 			y++;
 		}
+		x= cx;
+		y= cy;
 		while (x < d.length-1 && y >= 0) {
 			if (d[x][y] == 1)
 				return false;
 			x++;
 			y--;
 		}
-		
+
 		return true;
 	}
 
@@ -332,7 +333,7 @@ public class Test_queenEight_구현과제_수정 {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws EmptyGenericStackException {
 		int row = 8, col = 8;
 		int[][] data = new int[8][8];
 		for (int i = 0; i < data.length; i++)
