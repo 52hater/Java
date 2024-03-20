@@ -8,8 +8,11 @@ class Items3 {
 	int x;
 	int y;
 	int dir;
-	public Items3(int x, int y, int d) {
-		this.x = x; this.y = y; this.dir = d;
+	public Items3(int x, int y, int d) { //생성자
+		this.x = x;
+		this.y = y;
+		this.dir = d;
+		//객체의 필드
 	}
 	@Override
 	public String toString() {
@@ -19,12 +22,14 @@ class Items3 {
 class Offsets3 {
 	int a;
 	int b;
-	public Offsets3(int a, int b) {
-		this.a = a; this.b = b;
+	public Offsets3(int a, int b) { //생성자
+		this.a = a;
+		this.b = b;
+		//객체의 필드
 	}
 }
 	class StackList {
-	private List<Items3> data; // 스택용 배열
+	private List<Items3> data; // 스택용 배열 // data 는 스택박스
 	private int capacity; // 스택의 크기
 	private int top; // 스택 포인터
 
@@ -45,7 +50,7 @@ class Offsets3 {
 		top = 0;
 		capacity = maxlen;
 		try {
-			data = new ArrayList<>(0); // 스택 본체용 배열을 생성
+			data = new ArrayList<>(0); // 스택 본체용 배열을 생성 (스택박스)
 		} catch (OutOfMemoryError e) { // 생성할 수 없음
 			capacity = 0;
 		}
@@ -55,7 +60,8 @@ class Offsets3 {
 	public void push(Items3 p) throws OverflowIntStackException {
 		if (top >= capacity) // 스택이 가득 참
 			throw new OverflowIntStackException();
-		data.add(p);top++;
+		data.add(p);
+		top++;
 		return;
 	}
 
@@ -64,18 +70,6 @@ class Offsets3 {
 		if (top <= 0) // 스택이 빔
 			throw new EmptyIntStackException();
 		return data.remove(--top);
-	}
-
-	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
-	public Items3 peek() throws EmptyIntStackException {
-		if (top <= 0) // 스택이 빔
-			throw new EmptyIntStackException();
-		return data.get(top - 1);
-	}
-
-	// --- 스택을 비움 ---//
-	public void clear() {
-		top = 0;
 	}
 
 	// --- 스택에서 x를 찾아 인덱스(벌견하지 못하면 –1)를 반환 ---//
@@ -91,11 +85,6 @@ class Offsets3 {
 		return capacity;
 	}
 
-	// --- 스택에 쌓여있는 데이터 갯수를 반환 ---//
-	public int size() {
-		return top;
-	}
-
 	// --- 스택이 비어있는가? ---//
 	public boolean isEmpty() {
 		return top <= 0;
@@ -106,40 +95,31 @@ class Offsets3 {
 		return top >= capacity;
 	}
 
-	// --- 스택 안의 모든 데이터를 바닥 → 정상 순서로 표시 ---//
-	public void dump() {
-		if (top <= 0)
-			System.out.println("스택이 비어있습니다.");
-		else {
-			for (int i = 0; i < top; i++)
-				System.out.print(data.get(i) + " ");
-			System.out.println();
-		}
-	}
-}
-
 	public class Test_MazingProblem_미로찾기 {
 
-		static Offsets[] moves = new Offsets[8];//static을 선언하는 이유를 알아야 한다
+		static Offsets3[] moves = new Offsets3[8];//static을 선언하는 이유를 알아야 한다
 
 		//이게 핵심구현
 		public static void path(int[][] maze, int[][] mark, int ix, int iy) {
 
-			mark[1][1] = 1;
+			mark[1][1] = 1; //울타리때문에 [1][1]
 			StackList st = new StackList(50);
-			Items temp = new Items(0, 0, 0);//N :: 0
+			Items3 temp = new Items3(0, 0, 0);//N :: 0//x y dir
 			temp.x = 1;
 			temp.y = 1;
 			temp.dir = 2;//E:: 2
-			mark[temp.x][temp.y] = 2;//미로 찾기 궤적은 2로 표시
+			mark[temp.x][temp.y] = 2;//미로 찾기 궤적은 2로 표시 // 갔다온거
 			st.push(temp);
 
 			while (!st.isEmpty()) // stack not empty
 			{
-				Items tmp = st.pop(); // unstack
+				Items3 tmp = st.pop(); // unstack
 				int i = tmp.x;
 				int j = tmp.y;
 				int d = tmp.dir;
+				int g = i + moves[d].a; //g, h 는 이전위치, i, j 는 이동 할 위치
+				int h = j + moves[d].b;
+				
 				mark[i][j] = 1;//backtracking 궤적은 1로 표시
 				while (d < 8) // moves forward
 				{
@@ -149,10 +129,8 @@ class Offsets3 {
 
 					}
 					if ((maze[g][h] == 0) && (mark[g][h] == 0)) { // new position
-
-
 					} else
-
+						d++; //북쪽으로 못가면 d++로 북동쪽(?) / move 배열에 방향
 				}
 			}
 			System.out.println("no path in maze ");
@@ -167,8 +145,8 @@ class Offsets3 {
 			}
 		}
 		public static void main(String[] args) {
-			int[][] maze = new int[14][17];
-			int[][] mark = new int[14][17];
+			int[][] maze = new int[14][17]; //울타리가2
+			int[][] mark = new int[14][17]; //mark : 지나온 곳 다시 가지 않도록 check
 
 			int input[][] = { // 12 x 15
 					{ 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1 },
@@ -182,9 +160,13 @@ class Offsets3 {
 					{ 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1 },
 					{ 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 },
 					{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
-					{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 }};
+					{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 }
+					
+			};
+			
 			for (int ia = 0; ia < 8; ia++)
-				moves[ia] = new Offsets(0, 0);//배열에 offsets 객체를 치환해야 한다.
+				moves[ia] = new Offsets3(0, 0);//배열에 offsets 객체를 치환해야 한다.
+			//ia가 moves 배열에 새로운 Offsets3 객체를 할당하는데 사용되는 반복인덱스
 			moves[0].a = -1;	moves[0].b = 0;
 			moves[1].a = -1;	moves[1].b = 1;
 			moves[2].a = 0;		moves[2].b = 1;

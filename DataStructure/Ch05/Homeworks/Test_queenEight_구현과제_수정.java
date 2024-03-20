@@ -91,7 +91,6 @@ class Stack4 {
 			throw new OverflowGenericStackException("push: stack overflow");
 		data.add(x);
 		top++;
-		System.out.println(top);
 		return true;
 
 	}
@@ -101,26 +100,27 @@ class Stack4 {
 		if(isEmpty())
 			throw new EmptyGenericStackException("pop: stack empty");
 		//리스트의 탑을 리턴한다.
-		Point result = data.get(top-1);
+		Point p = data.get(top-1);
 		data.remove(top-1);
 		top--;
-		return result;
+		return p;
 	}
 
 	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public Point peek() throws EmptyGenericStackException {
 		if(isEmpty())
 			throw new EmptyGenericStackException("peek: this stack is empty");
-
-		System.out.println(top);
 		return data.get(top-1);
 	}
 
 	// --- 스택을 비움 ---//
-	public void clear() {
+	public void clear() throws EmptyGenericStackException {
 		if (isEmpty())
-			//throw new EmptyGenericStackException("clear: this stack is already empty");
-			top = 0;
+			throw new EmptyGenericStackException("clear: this stack is already empty");
+		while (!isEmpty()) {
+			data.remove(top-1);
+			top--;
+		}
 	}
 
 	// --- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
@@ -168,7 +168,6 @@ public class Test_queenEight_구현과제_수정 {
 		int count = 0;// 퀸 배치 갯수
 		int numberSolutions = 0;
 		int ix = 0, iy = 0;// 행 ix, 열 iy
-		int newCol = nextMove(d, ix, iy);
 		Stack4 st = new Stack4(100); // 100개를 저장할 수 있는 스택을 만들고
 		Point p = new Point(ix, iy);// 현 위치를 객체로 만들고
 		d[ix][iy] = 1;// 현 위치에 queen을 넣었다는 표시를 하고
@@ -190,45 +189,52 @@ public class Test_queenEight_구현과제_수정 {
 		//스택의 포인터 완성시켜놓고 여기에 적용
 
 		//넥스트무브를 사용해서 -1일때와 아닐때
+
+		//4*4 일때
+		//0,0에 퀸배치, 푸쉬
+		//넥스트무브 함수사용
+		//다음행으로, 넥스트무브 함수사용, 1,2에 퀸 배치, 푸쉬
+		//다음행으로, 넥스트무브 함수사용, 넣을 수 있는 곳X(return -1;)
+		//(1,2)pop, (0,0)pop
+		//ix++ >> 다음행으로 이동, (1,0)push
+		//(0,2)push?
 		while (!(iy == d[0].length && ix == 0)) {
-			//4*4 일때
-			//0,0에 퀸배치, 푸쉬
-			//넥스트무브 함수사용
-			//다음행으로, 넥스트무브 함수사용, 1,2에 퀸 배치, 푸쉬
-			//다음행으로, 넥스트무브 함수사용, 넣을 수 있는 곳X(return -1;)
-			//(1,2)pop, (0,0)pop
-			//ix++ >> 다음행으로 이동, (1,0)push
-			//(0,2)push?
+			int newCol = nextMove(d, ix, iy); //while 문의 범위를 지정해줘야되는데
+			//얘땜에 아웃오브바운드
 
 			if (newCol != -1) {
 				iy = newCol;
 				d[ix][newCol] = 1;
 				st.push(new Point(ix, newCol));
 				count++;
-				ix++;
+				ix++; //행탐색
 				iy = 0;
-				
-				if (count == 8) {
+				if (count == d.length) {
 					numberSolutions++;
-					System.out.println("#[" + numberSolutions + "]");
+
+					System.out.println("<<<"+numberSolutions + "번째 해>>>");
+
 					showQueens(d);
-				} continue; 
+					Point np = st.pop();
+					ix = np.getX(); // 그걸 현재포인트 주소로 초기화
+					iy = np.getY();
+					d[ix][iy]=0;
+					count --; // 팝이니까
+					iy++;//열탐색
+				}
 			} else {
-				Point n = st.pop(); // 실행되고 리턴 // Point n 이라는 객체에 st에서 팝한걸 저장
-				d[n.getX()][n.getY()] = 0;
-				ix = n.getX(); //현 메소드 지역변수에 가지고 온 값을 넣는다.
+				Point n = st.pop(); //클래스포인트의 객체 n 스택에서 팝한 데이터를 넣고 
+				d[n.getX()][n.getY()] = 0; //체스판에서 n 의 데이터를 가져오고 그걸로 초기화
+				ix = n.getX(); // 그걸 현재포인트 주소로 초기화
 				iy = n.getY();
-				count --;
-				iy++;
+				count --; // 팝이니까
+				iy++;//열탐색
 			}
-			break;
 		}
-		System.out.println("해의 개수 : " + numberSolutions);
 	}
 
 	public static boolean checkRow(int[][] d, int crow) { 
 		//배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
-		//대각선 남서쪽체크 /
 		for (int i = 0; i < d[0].length; i++) {
 			if (d[crow][i] == 1) {
 				return false; // 해당 행에 이미 퀸이 배치되어 있으면
@@ -253,7 +259,8 @@ public class Test_queenEight_구현과제_수정 {
 	public static boolean checkDiagSW(int[][] d, int cx, int cy) {
 		// x++, y-- or x--, y++ where 0<= x,y <= 7
 		int x = cx, y = cy;
-		while (x >= d.length-1 && y >= d[0].length-1) {
+		while (x >= 0 && y >= 0) {
+
 			if (d[x][y] == 1)
 				return false;
 			x--;
@@ -261,7 +268,7 @@ public class Test_queenEight_구현과제_수정 {
 		}
 		x= cx;
 		y= cy;
-		while (x < d.length-1 && y < d[0].length-1) {
+		while (x < d.length && y < d[0].length) {
 			if (d[x][y] == 1)
 				return false;
 			x++;
@@ -274,7 +281,7 @@ public class Test_queenEight_구현과제_수정 {
 	//배열 d에서 행 cx, 열 cy에 퀸을 남동, 북서 대각선으로 배치할 수 있는지 조사
 	public static boolean checkDiagSE(int[][] d, int cx, int cy) {
 		int x = cx, y = cy;
-		while (x >= 0 && y < d[0].length-1) {
+		while (x >= 0 && y < d[0].length) {
 			if (d[x][y] == 1)
 				return false;
 			x--;
@@ -282,7 +289,7 @@ public class Test_queenEight_구현과제_수정 {
 		}
 		x= cx;
 		y= cy;
-		while (x < d.length-1 && y >= 0) {
+		while (x < d.length && y >= 0) {
 			if (d[x][y] == 1)
 				return false;
 			x++;
@@ -314,8 +321,8 @@ public class Test_queenEight_구현과제_수정 {
 	//이동이 가능하지 않으면 -1를 리턴
 	//넥스트무브는 첵무브를 불러서 for루프 돌려서
 	public static int nextMove(int[][] d, int row, int col) {// 현재 row, col에 대하여 이동할 col을 return
-		for (int nextCol = col+1; nextCol < d[0].length; nextCol++) {
-			//다음열을 탐색해야하니까 col+1로 초기화
+		for (int nextCol = col; nextCol < d[0].length; nextCol++) {
+			//다음열을 탐색해야하니까 col+1로 초기화 //col+1이 왜 아닌지 탐구
 			if (checkMove(d, row, nextCol)) {//checkMove가 참이면
 				return nextCol; // col+1(다음열로)
 			}
@@ -325,7 +332,7 @@ public class Test_queenEight_구현과제_수정 {
 
 	static void showQueens(int[][] data) {// 배열 출력
 		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
+			for (int j = 0; j < data[0].length; j++) {
 				System.out.print(data[i][j] + " ");
 			}
 			System.out.println();
