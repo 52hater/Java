@@ -22,13 +22,14 @@ class Items3 {
 class Offsets3 {
 	int a;
 	int b;
+
 	public Offsets3(int a, int b) { //생성자
 		this.a = a;
 		this.b = b;
 		//객체의 필드
 	}
 }
-	class StackList {
+class StackList {
 	private List<Items3> data; // 스택용 배열 // data 는 스택박스
 	private int capacity; // 스택의 크기
 	private int top; // 스택 포인터
@@ -95,6 +96,16 @@ class Offsets3 {
 		return top >= capacity;
 	}
 
+	static void showMatrix(int[][] maze, int x, int y) {
+		for (int i = 0; i <= x; i++) {
+			for (int j = 0; j <= y; j++) {
+				System.out.print(maze[i][j] + " ");
+				
+			}
+			System.out.println();
+		}
+	}
+
 	public class Test_MazingProblem_미로찾기 {
 
 		static Offsets3[] moves = new Offsets3[8];//static을 선언하는 이유를 알아야 한다
@@ -104,46 +115,57 @@ class Offsets3 {
 
 			mark[1][1] = 1; //울타리때문에 [1][1]
 			StackList st = new StackList(50);
-			Items3 temp = new Items3(0, 0, 0);//N :: 0//x y dir
-			temp.x = 1;
+			Items3 temp = new Items3(0, 0, 0);//N :: 0//x y dir//temporary?
+			temp.x = 1; //울타리가 있으니 1로 초기화?
 			temp.y = 1;
-			temp.dir = 2;//E:: 2
-			mark[temp.x][temp.y] = 2;//미로 찾기 궤적은 2로 표시 // 갔다온거
+			temp.dir = 2;//E:: 2 ? east? / east 부터 탐색시작이라는 소리인듯? 그럼 NE가 1인가
+			mark[temp.x][temp.y] = 2;//미로 찾기 궤적은 2로 표시 // 갔다온거??
 			st.push(temp);
+			//temp 시작지점?
 
-			while (!st.isEmpty()) // stack not empty
+			while (!st.isEmpty()) // 스택에 뭐가 들어갈때까지 루프 / 비면 빠져나와
 			{
-				Items3 tmp = st.pop(); // unstack
+				Items3 tmp = st.pop(); // unstack// tmp 객체에 팝한걸 넣고
 				int i = tmp.x;
 				int j = tmp.y;
 				int d = tmp.dir;
 				int g = i + moves[d].a; //g, h 는 이전위치, i, j 는 이동 할 위치
-				int h = j + moves[d].b;
-				
+				int h = j + moves[d].b; //다음이동할위치의 y 좌표 ?
+
 				mark[i][j] = 1;//backtracking 궤적은 1로 표시
-				while (d < 8) // moves forward
-				{
+				//현재위치를 backtracking 마킹한거
+				// 1, 2 헷갈리는데 개념이해를 아직 제대로 못한 듯
 
-					if ((g == ix) && (h == iy)) { // reached exit
-													// output path
-
+				// moves forward
+				while (d < 8) {//이전지점이 있으니까 d < 8 / 가능한 모든 이동 dir 탐색
+					if ((g == ix) && (h == iy)) { // 이전위치가 다음위치 = 출구? 막혀?
+						showMatrix(maze, i, j);
 					}
+
 					if ((maze[g][h] == 0) && (mark[g][h] == 0)) { // new position
+						temp = new Items3(0, 0, 0); //while문 반복마다 새로운 객체사용하기위해// output path
+						temp.x = i;
+						temp.y = j;
+						temp.dir = d+1; //다음 이동 dir 설정 ex) E + 1 = SE
+
+						g = i + moves[d].a;
+						h = j + moves[d].b;
+
+						mark[i][j] = 2; //이동한지점 마킹
+						st.push(temp);
+
+						i = g;
+						j = h;
+						d = 0;
 					} else
 						d++; //북쪽으로 못가면 d++로 북동쪽(?) / move 배열에 방향
+					g = i + moves[d].a;
+					h = j + moves[d].b;
 				}
 			}
 			System.out.println("no path in maze ");
 		}
-		static void showMatrix(int[][]d, int row, int col) {
-			for (int i = 0; i <= row; i++) {
-				for (int j = 0; j <= col; j++) {
-					System.out.print(d[i][j] + " ");
-
-				}
-				System.out.println();
-			}
-		}
+		
 		public static void main(String[] args) {
 			int[][] maze = new int[14][17]; //울타리가2
 			int[][] mark = new int[14][17]; //mark : 지나온 곳 다시 가지 않도록 check
@@ -161,9 +183,9 @@ class Offsets3 {
 					{ 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 },
 					{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
 					{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 }
-					
+
 			};
-			
+
 			for (int ia = 0; ia < 8; ia++)
 				moves[ia] = new Offsets3(0, 0);//배열에 offsets 객체를 치환해야 한다.
 			//ia가 moves 배열에 새로운 Offsets3 객체를 할당하는데 사용되는 반복인덱스
@@ -186,7 +208,7 @@ class Offsets3 {
 			}
 			System.out.println("maze[12,15]::");
 			showMatrix(maze, 13, 16);
-		
+
 			System.out.println("mark::");
 			showMatrix(mark, 13, 16);
 
