@@ -36,12 +36,22 @@ class StackList {
 
 	// --- 실행시 예외 : 스택이 비어있음 ---//
 	public class EmptyIntStackException extends RuntimeException {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public EmptyIntStackException() {
 		}
 	}
 
 	// --- 실행시 예외 : 스택이 가득 참 ---//
 	public class OverflowIntStackException extends RuntimeException {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public OverflowIntStackException() {
 		}
 	}
@@ -57,7 +67,7 @@ class StackList {
 		}
 	}
 
-	// --- 스택에 x를 푸시 ---//
+	// --- 스택에 x 를 푸시 ---//
 	public void push(Items3 p) throws OverflowIntStackException {
 		if (top >= capacity) // 스택이 가득 참
 			throw new OverflowIntStackException();
@@ -73,7 +83,7 @@ class StackList {
 		return data.remove(--top);
 	}
 
-	// --- 스택에서 x를 찾아 인덱스(벌견하지 못하면 –1)를 반환 ---//
+	// --- 스택에서 x 를 찾아 인덱스(벌견하지 못하면 –1)를 반환 ---//
 	public int indexOf(Items3 x) {
 		for (int i = top - 1; i >= 0; i--) // 정상 쪽에서 선형검색
 			if (data.get(i).equals(x))
@@ -108,7 +118,7 @@ class StackList {
 
 	public class Test_MazingProblem_미로찾기 {
 
-		static Offsets3[] moves = new Offsets3[8];//static을 선언하는 이유를 알아야 한다
+		static Offsets3[] moves = new Offsets3[8];//static 을 선언하는 이유를 알아야 한다
 
 		//이게 핵심구현
 		public static void path(int[][] maze, int[][] mark, int ix, int iy) {
@@ -135,6 +145,7 @@ class StackList {
 				mark[i][j] = 1;//backtracking 궤적은 1로 표시
 				//현재위치를 backtracking 마킹한거
 				// 1, 2 헷갈리는데 개념이해를 아직 제대로 못한 듯
+				//백트레킹이니까 벽을 세우는거지
 
 				// moves forward
 				while (d < 8) {//이전지점이 있으니까 d < 8 / 가능한 모든 이동 dir 탐색
@@ -188,6 +199,7 @@ class StackList {
 
 			for (int ia = 0; ia < 8; ia++)
 				moves[ia] = new Offsets3(0, 0);//배열에 offsets 객체를 치환해야 한다.
+			//moves 배열 : 8방향 0~7 저장
 			//ia가 moves 배열에 새로운 Offsets3 객체를 할당하는데 사용되는 반복인덱스
 			moves[0].a = -1;	moves[0].b = 0;
 			moves[1].a = -1;	moves[1].b = 1;
@@ -200,21 +212,31 @@ class StackList {
 			//Directions d;
 			//d = Directions.N;
 			//d = d + 1;//java는 지원안됨
+			
+			// input[][]을 maze[][]로 변환
 			for (int i = 0; i < 14; i++) {
 				for (int j = 0; j < 17; j++) {
-
-					// input[][]을 maze[][]로 변환
+					if (i == 0 || j == 0 || i == maze.length || j == maze[0].length) {
+						maze[i][j] = 1;
+					} else {
+						maze[i][j] = input[i-1][j-1];
+						//메이즈가 if 문 거쳐서 나올때 테두리만 나온상태니까
+						//테두리 내부는 빈상태 > 그 빈상태를 else 로 받는 것
+						//그래서 maze[i-2][j-2]가 아닌듯
+					}
 				}
 			}
-			System.out.println("maze[12,15]::");
-			showMatrix(maze, 13, 16);
-
-			System.out.println("mark::");
-			showMatrix(mark, 13, 16);
-
-			path(maze, mark, 12, 15);
-			System.out.println("mark::");
-			showMatrix(mark, 12, 15);
+			
+//			System.out.println("maze[12,15]::");
+//			showMatrix(maze, 13, 16);
+//
+//			System.out.println("mark::");
+//			showMatrix(mark, 13, 16);
+//
+//			path(maze, mark, 12, 15);
+//			System.out.println("mark::");
+//			showMatrix(mark, 12, 15);
 		}
 	}
+}
 
