@@ -13,7 +13,10 @@ class PhyscData implements Comparable<PhyscData>{
 		this.height = height;
 		this.vision = vision;
 	}
-
+	@Override
+	public String toString() {
+		return ("name="+name + ", height = " + height + ", vision = " + vision);
+	}
 	@Override
 	public int compareTo(PhyscData p) {
 		// TODO Auto-generated method stub
@@ -30,25 +33,39 @@ public class Test_객체merge정렬 {
 	static void merge(PhyscData[] a, int lefta, int righta, int leftb, int rightb ) {
 		//두개로 갈라진 배열 합쳐지는 임시배열
 		//PhyscData[] temp = new PhyscData[(righta+1) + (rightb+1)]; //length 니까 +1 //이거 왜 안돼?
-		PhyscData[] temp = new PhyscData[(righta-lefta+1) + (rightb-leftb+1)]; //length 니까 +1
+		PhyscData[] temp = new PhyscData[(righta-lefta+1)+ (rightb-leftb+1)]; //length 니까 +1
 		
 		int tempI = 0;
+		int la = lefta, lb = leftb;
 
-		while (lefta <= righta && leftb <= rightb) {
-			if (a[lefta].compareTo(a[leftb]) <= 0) {
-				temp[tempI++] = a[lefta++];
-			} else {
-				temp[tempI++] = a[leftb++];
+		while (la <= righta && lb <= rightb) {
+			if ((a[la].compareTo(a[lb])) < 0) {
+				temp[tempI++] = a[la++];
+			}
+			else if (a[la].compareTo(a[lb]) == 0) {
+				temp[tempI++] = a[la++];
+				temp[tempI++] = a[lb++];
+			}
+			else {
+				temp[tempI++] = a[lb++];
 			}
 		}
-		while (lefta <= righta) {
-			temp[tempI++] = a[lefta++];
+
+
+		while (la <= righta) {
+			temp[tempI++] = a[la++];
 		}
-		while (leftb <= rightb) {
-			temp[tempI++] = a[leftb++];
+		while (lb <= rightb) {
+			temp[tempI++] = a[lb++];
 		}
-		for (int i = 0; i < temp.length; i++ ) {
-			a[i] = temp[i];
+// 이렇게하면 두명씩 출력되는데 왜 그런건지
+//		for (int i = 0; i <= temp.length; i++) {
+//			a[i] = temp[i];
+//		}
+		
+		//이건 내가 한 거 아님
+		for (int i = lefta; i <= rightb; i++) { //0~temp.len으로 하면
+			a[i] = temp[i-lefta]; //이게 왜 이런지 이해해보자
 		}
 	}
 	
@@ -72,16 +89,16 @@ public class Test_객체merge정렬 {
 				new PhyscData("김찬우", 173, 0.7),
 				new PhyscData("황지안", 169, 0.8),
 				new PhyscData("강민하", 162, 0.3),
-				new PhyscData("박준서", 171, 2.0),
-				new PhyscData("유서범", 171, 1.5),
-				new PhyscData("장경오", 171, 1.2),
+				new PhyscData("박준서", 176, 2.0),
+				new PhyscData("유서범", 174, 1.5),
+				new PhyscData("장경오", 181, 1.2),
 
 		};
 
 		int nx = x.length;
 
 		MergeSort(x, 0, nx - 1); // 배열 x를 퀵정렬
-		System.out.println("오름차순으로 정렬했습니다.");
+		System.out.println("수정후  정렬했습니다.");
 		System.out.println("■ 신체검사 리스트 ■");
 		System.out.println(" 이름     키  시력");
 		System.out.println("------------------");
