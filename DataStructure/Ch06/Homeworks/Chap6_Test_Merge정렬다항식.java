@@ -1,16 +1,25 @@
-package Chap6_Sorting;
+package DataStructure.Ch06.Homeworks;
 /*
  * 6장 구현과제1
  */
 
-class Polynomial3 implements Comparable<Polynomial3>{
+/*f(x)=5x^2+4x+7 / g(x)=3x^3 + 6x^2
+ * f(x)+g(x)=3x^3+11x^2+4x+7
+ * 이런식으로 */
+/*f(x)*g(x)=(5x^2+4x+7)*3x^3 + (5x^2+4x+7)*6x^2
+ * = (15x^5+12x^4+21x^3) + (30x^4+24x^3+42x^2)
+ * >>>>배열머지*/
+
+//git test
+
+class Polynomial3 implements Comparable<Polynomial3> {
     double coef;           // 계수
     int    exp;            // 지수
 
-    Polynomial3(){}
     //--- 생성자(constructor) ---//
     Polynomial3(double coef, int exp) {
-        this.coef = coef;  this.exp = exp; 
+        this.coef = coef;
+        this.exp = exp; 
     }
 
     //--- 신체검사 데이터를 문자열로 반환 --//
@@ -23,7 +32,7 @@ class Polynomial3 implements Comparable<Polynomial3>{
     	return d2.exp - exp;
     }
 }
-public class 실습6_12_3MergeSort다항식정렬 {
+public class Chap6_Test_Merge정렬다항식 {
 
 	// --- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
 	static void merge(Polynomial3[] a, int lefta, int righta, int leftb, int rightb ) {
@@ -100,10 +109,10 @@ public class 실습6_12_3MergeSort다항식정렬 {
 		//구현 코드
 		return result;
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) {//x,y 다항식
 		Polynomial3[] x = {
-		         new Polynomial3(1.5, 3),
-		         new Polynomial3(2.5, 7),
+		         new Polynomial3(1.5, 3),//앞은 계수 뒤에가 지수 > 지수가지고 정렬
+		         new Polynomial3(2.5, 7),//지수가 같으면 계수로 정렬
 		         new Polynomial3(3.3, 2),
 		         new Polynomial3(4.0, 1),
 		         new Polynomial3(2.2, 0),
@@ -122,10 +131,10 @@ public class 실습6_12_3MergeSort다항식정렬 {
 		int nx = x.length;
 
 
-		ShowPolynomial("다항식 x = ", x, -1);
+		ShowPolynomial("다항식 x = ", x, -1);//다항식출력
 		ShowPolynomial("다항식 y = ", y, -1);
-		MergeSort(x, 0, x.length - 1); // 배열 x를 퀵정렬
-		MergeSort(y, 0, y.length - 1); // 배열 x를 퀵정렬
+		MergeSort(x, 0, x.length - 1); // 배열 x를 퀵정렬 > 지수가지고 정렬
+		MergeSort(y, 0, y.length - 1); // 배열 x를 퀵정렬 > 지수가같으면 계수로 정렬
 		ShowPolynomial("정렬후 다항식 x = ", x, -1);
 		ShowPolynomial("정렬후 다항식 y = ", y, -1);
 		
