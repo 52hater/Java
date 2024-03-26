@@ -16,16 +16,23 @@ class Heap implements MaxHeap {
 	private int n; // current size of MaxHeap
 	private int MaxSize; // Maximum allowable size of MaxHeap
 	
-	public Heap(int sz) {
-
+	public Heap(int sz) { //생성자
+		MaxSize = sz;
+		heap = new int[MaxSize + 1]; //힙 배열크기를 주는건데 교수님께서 인덱스가 1로 시작하라셨잖음
+		n = 0; //초기 힙 크기 : 0;	(n = 현재맥스힙의 사이즈)
 	}
 
-	public void display() {
-
+	public void display() { //내나 showarr
+		for (int i = 1; i <= n; i++) {
+			System.out.print(heap[i] + " ");
+		}
+		System.out.println();
 	}
+	
 	@Override
+	//새로운 값을 힙에 넣음, 힙의 마지막 위치에 값추가, 부못값과 비교해서 최대힙의 성질??을 만족하도록 조정
 	public void Insert(int x) {
-		if (n == MaxSize) { //현재 힙배열의 크기가 맥스힙 한도사이즈와 같으면
+		if (n == MaxSize) { //현재 힙배열의 크기가 맥스힙 한도사이즈와 같으면 // 힙이 꽉 찼다는 말이지
 			HeapFull(); //힙풀 호출
 			return; //반환
 		}
@@ -39,6 +46,8 @@ class Heap implements MaxHeap {
 		heap[i] = x;
 	}
 	@Override
+	//힙의 최댓값을 삭제함
+	//루트노드를 삭제하고 마지막노드를 루트로 이동시켜서 최대힙의 성질을 유지(?)
 	public int DeleteMax() { //이걸 계속 호출하면 정렬된 결과가 나온다
 
 	}
