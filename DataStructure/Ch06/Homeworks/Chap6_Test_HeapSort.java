@@ -44,8 +44,10 @@ class Heap implements MaxHeap {
 			//브레이크 먹고 지금 이 for 문에서 빠져나가서
 			//heap[i] = x; 이렇게 1번 인덱스에 x 값을 넣고
 			//case1로 다시 날아가서 두번째인 i = 2를 받아서 다시 메소드호출을 타고 여기로 날아와
-			if (x <= heap[i / 2]) break;
-			//새로 받는 x 값이 현재힙 중간위치의 값 이하이면 break 하고 다시 값 받으러감
+			if (x >= heap[i / 2]) break;
+			//새로 받는 x 값이 중간위치의 값 이하이면 break 하고 다시 값 받으러감
+			// i/2한 곳이 부못값의 자리인데 힙에서는 부못값이 자식값보다 항상 커야함
+			//
 			
 			// move from parent to i
 			heap[i] = heap[i / 2]; //
