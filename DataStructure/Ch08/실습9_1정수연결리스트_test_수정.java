@@ -67,20 +67,22 @@ class LinkedList1 { //연결리스트 클래스
 		//즉 newNode 는 elem 데이터를 가진 새로운 Node1의 객체
 		if(first == null || first.data > newNode.data) {
 			newNode.link = first; //first 가 null 일경우 어차피 link 도 null 이 되는것
+			//first.data > newNode.data 조건일때는
+			//새로운 노드의 link 를 '현재'의 first 로 설정
 			first.data = newNode.data; //새로들어온놈이 작으니까 first 노드가 되는거지
 			//first 가 바뀐 것
 		} else { //first 노드가 있고(주의 &&) 새노드의 값이 first 노드의 값보다 크면
-			Node1 temp = first;
-			Node1 temp2 = null;
-			while(temp != null && temp.data < elem) {
+			Node1 p = first; //현재노드
+			Node1 q = null; //이전노드
+			while(p != null && p.data < elem) {
 				//첫노드가 있고 첫노드의 데이터가 새노드의값보다 작으면 루프
-				temp2 = temp;
+				q = p;
 				//temp2를 없애려면 비교연산자를 쓸때 temp.link.data를 하면
 				//다음값의 데이터값을 비교하는거니까 temp2만들필요없지
-				temp = temp.link;
+				p = p.link;
 			}
-			temp2.link = newNode;
-			newNode.link = temp;
+			q.link = newNode;
+			newNode.link = p;
 		}
 		
 //		Node1 temp = new Node1(element);
